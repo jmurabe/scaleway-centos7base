@@ -1,0 +1,11 @@
+- name: installs
+  yum:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - yum-utils
+    - git
+    - unzip
+    - libselinux-python
+    - libsemanage-python
+    - policycoreutils-python

@@ -1,0 +1,7 @@
+### Vagrant ###
+.vagrant
+.env
+### Ansible ###
+*.retry
+### Mac ###
+.DS_Store

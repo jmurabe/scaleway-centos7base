@@ -1,0 +1,5 @@
+- hosts: all
+  become: true
+  roles:
+    - centos7common
+    - centos7secup

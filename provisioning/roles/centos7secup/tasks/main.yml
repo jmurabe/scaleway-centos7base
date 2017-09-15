@@ -1,0 +1,44 @@
+- name: install on yum security update
+  yum:
+    state: latest
+    name: "{{ item }}"
+  with_items:
+    - yum-plugin-security
+    - createrepo
+    - bzip2
+- name: check /security exists
+  stat: path=/security
+  register: security_dir
+- name: make /security
+  become: true
+  file: path=/security state=directory owner=root group=root mode=0755
+  when: not security_dir.stat.exists
+- name: create repo for CEFS project
+  shell: |
+    createrepo /security
+    cp /etc/yum.repos.d/CentOS-Base.repo{,.bk}
+    {
+    echo '[security]'
+    echo 'name=CentOS-$releasever - Security'
+    echo 'baseurl=file:///security'
+    echo ''
+    } >> /etc/yum.repos.d/CentOS-Base.repo
+  when: not security_dir.stat.exists
+- name: download vmfarms/generate_updateinfo
+  get_url:
+    url: 'https://raw.githubusercontent.com/vmfarms/generate_updateinfo/master/generate_updateinfo.py'
+    dest: '/security/generate_updateinfo.py'
+- name: download CEFS errata.latest.xml.bz2
+  get_url:
+    url: 'http://cefs.steve-meier.de/errata.latest.xml.bz2'
+    dest: '/security/errata.latest.xml.bz2'
+  register: get_latest_errata
+- name: update CEFS project repo and yum security update
+  shell: |
+    python generate_updateinfo.py --destination=/security --release=7 <(bzip2 -dc errata.latest.xml.bz2)
+    modifyrepo /security/updateinfo-7/updateinfo.xml /security/repodata/
+    yum --security -y update
+  args:
+    chdir: /security
+    executable: /bin/bash
+  when: get_latest_errata|changed
