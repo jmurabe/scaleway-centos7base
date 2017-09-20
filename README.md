@@ -1,4 +1,4 @@
-# jmurabe.centos7base for Scaleway
+# centos7base for Scaleway
 Vagrant + Ansible で [Scaleway](https://www.scaleway.com/") にCentOS7のインスタンスを起動し、CEFSプロジェクト提供のエラッタに基づきセキュリティアップデートを行います。
 
 Scalewayのトークン(SCALEWAY_TOKEN)、組織ID(SCALEWAY_ORG)などの公開するべきではない情報は.envファイルで管理します。
@@ -12,7 +12,7 @@ $ vagrant plugin install vagrant-scaleway
 $ vagrant plugin install dotenv
 ```
 
-## 設定
+## 準備
 ```
 $ git clone git@github.com:jmurabe/scaleway-centos7base.git
 $ cd scaleway-centos7base
@@ -50,6 +50,15 @@ SCALEWAY_PKEY = '~/.ssh/id_rsa'
 $ vagrant up
 ```
 
+CEFSプロジェクトのエラッタが更新されていればプロビジョニング実行でセキュリティアップデートが実行されます。
+
+```
+$ vagrant provision
+```
+
+等
+
 ## 参照
+- [Vagrant+AnsibleでCentOS7のセキュリティアップデートまで](http://www.lancard.com/blog/2017/09/20/scaleway-centos7base/)
 - [VagrantでScaleway使うと開発に便利なのでは？という話](http://www.lancard.com/blog/2017/09/08/vagrant%E3%81%A7scaleway%E4%BD%BF%E3%81%86%E3%81%A8%E9%96%8B%E7%99%BA%E3%81%AB%E4%BE%BF%E5%88%A9%E3%81%AA%E3%81%AE%E3%81%A7%E3%81%AF%EF%BC%9F%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/)
 - [CentOS7 での yum –security update 事情](http://www.lancard.com/blog/2017/09/15/centos7-%e3%81%a7%e3%81%ae-yum-security-update-%e4%ba%8b%e6%83%85/)
