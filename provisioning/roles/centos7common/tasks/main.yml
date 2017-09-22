@@ -1,11 +1,24 @@
+- name: add EPEL
+  yum:
+    name: epel-release
+    state: present
 - name: installs
   yum:
     state: latest
     name: "{{ item }}"
   with_items:
+    - bind-utils
     - yum-utils
     - git
     - unzip
     - libselinux-python
     - libsemanage-python
     - policycoreutils-python
+    - python-pip
+    - firewalld
+- name: running and enabled firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+- firewalld: zone=public service=ssh state=enabled permanent=true immediate=yes
