@@ -58,7 +58,18 @@ $ vagrant provision
 
 等
 
+## 注意
+ScalewayのSecurity groupは取扱が難しいとの判断から、centos7commonロールでfirewalldの導入・起動設定を行いポート制限を行っています。必要に応じてポートのアクセス許可をおこなって下さい。
+
+例)sshの許可設定サンプル(centos7commonより)
+
+```
+- firewalld: zone=public service=ssh state=enabled permanent=true immediate=yes
+```
+
+
 ## 参照
 - [Vagrant+AnsibleでCentOS7のセキュリティアップデートまで](http://www.lancard.com/blog/2017/09/20/scaleway-centos7base/)
 - [VagrantでScaleway使うと開発に便利なのでは？という話](http://www.lancard.com/blog/2017/09/08/vagrant%E3%81%A7scaleway%E4%BD%BF%E3%81%86%E3%81%A8%E9%96%8B%E7%99%BA%E3%81%AB%E4%BE%BF%E5%88%A9%E3%81%AA%E3%81%AE%E3%81%A7%E3%81%AF%EF%BC%9F%E3%81%A8%E3%81%84%E3%81%86%E8%A9%B1/)
 - [CentOS7 での yum –security update 事情](http://www.lancard.com/blog/2017/09/15/centos7-%e3%81%a7%e3%81%ae-yum-security-update-%e4%ba%8b%e6%83%85/)
+- [ScalewayのSecurity groupに期待しすぎるのをやめる](http://www.lancard.com/blog/2017/09/25/scaleway%e3%81%aesecurity-group%e3%81%ab%e6%9c%9f%e5%be%85%e3%81%97%e3%81%99%e3%81%8e%e3%82%8b%e3%81%ae%e3%82%92%e3%82%84%e3%82%81%e3%82%8b/)
